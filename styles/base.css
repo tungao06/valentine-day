@@ -1,0 +1,6 @@
+.bg-main {
+  background: url("../assets/valentines-day-background.jpg");
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+}

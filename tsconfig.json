@@ -2,18 +2,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ],
-      "@components/*": [
-        "components/*"
-      ],
-      "@studio/*": [
-        "studio/*"
-      ]
+      "@lib/*": ["lib/*"],
+      "@assets/*": ["assets/*"],
+      "@helps/*": ["utils/helps/*"],
+      "@utils/*": ["utils/*"],
+      "@/styles/*": ["styles/*"],
+      "@/components/*": ["components/*"],
+      "@studio/*": ["studio/*"]
     },
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
@@ -35,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.js",
-    "**/*.jsx", "pages/index.tsx"],
+    "**/*.jsx",
+  ],
   "exclude": ["node_modules"]
 }
-
