@@ -5,7 +5,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-full min-h-screen overflow-x-hidden overflow-y-auto bg-main min-w-screen selection:bg-rose-600 selection:text-white text-zinc-900">
       <Head>
-        <title>Nest Starter</title>
+        <title>DayCream</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex flex-col items-center justify-center flex-1 w-full sm:px-20 text-center">
