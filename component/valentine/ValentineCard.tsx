@@ -49,7 +49,7 @@ const ValentineCard = () => {
               setYesSizeWidth(el.getBoundingClientRect().width);
               setYesSizeHeight(el.getBoundingClientRect().height);
             }}
-            className={`bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg`}
+            className={`animate-bounce bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg`}
             style={{ fontSize: yesFontSize }}
             onClick={() => router.push("success")}
           >

@@ -8,7 +8,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <title>Nest Starter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col items-center justify-center flex-1 w-full px-20 text-center">
+      <main className="flex flex-col items-center justify-center flex-1 w-full sm:px-20 text-center">
         {children}
       </main>
       {/* <footer className="flex items-center justify-center w-full h-24 border-t">
