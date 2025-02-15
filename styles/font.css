@@ -1,3 +1,4 @@
+/* tangerine */
 .tangerine-regular {
   font-family: "Tangerine", serif;
   font-weight: 400;
@@ -10,8 +11,78 @@
   font-style: normal;
 }
 
+
+/* sriracha */
 .sriracha-regular {
   font-family: "Sriracha", serif;
   font-weight: 400;
+  font-style: normal;
+}
+
+/* thasadith */
+.thasadith-regular {
+  font-family: "Thasadith", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.thasadith-bold {
+  font-family: "Thasadith", serif;
+  font-weight: 700;
+  font-style: bold;
+}
+
+.thasadith-regular-italic {
+  font-family: "Thasadith", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.thasadith-bold-italic {
+  font-family: "Thasadith", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+/* sans-thai */
+.ibm-plex-sans-thai-thin {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-extralight {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-light {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-regular {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-medium {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-semibold {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.ibm-plex-sans-thai-bold {
+  font-family: "IBM Plex Sans Thai", serif;
+  font-weight: 700;
   font-style: normal;
 }

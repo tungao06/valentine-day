@@ -40,7 +40,7 @@ const ValentineMessage = () => {
           {switchLanguage ? (
             <div
               id="englishContent"
-              className="leading-relaxed text-justify text-gray-800"
+              className="thasadith-bold leading-relaxed text-justify text-gray-800"
             >
               <p className="mb-4 text-xl">Happy Valentine’s Day, my love,</p>
               <p>
@@ -68,7 +68,7 @@ const ValentineMessage = () => {
           ) : (
             <div
               id="thaiContent"
-              className="sriracha-regular leading-relaxed text-justify text-gray-800"
+              className="ibm-plex-sans-thai-medium leading-relaxed text-justify text-gray-800"
             >
               <p className="mb-4 text-xl">สุขสันต์วันวาเลนไทน์ที่รัก,</p>
               <p>
