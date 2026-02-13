@@ -1,0 +1,56 @@
+{
+  "headers": [
+    {
+      "source": "/images/(.*)\\.(mov|MOV)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "video/quicktime"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Accept-Ranges",
+          "value": "bytes"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)\\.(mp4|MP4)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "video/mp4"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Accept-Ranges",
+          "value": "bytes"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)\\.(webm|WEBM)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "video/webm"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        },
+        {
+          "key": "Accept-Ranges",
+          "value": "bytes"
+        }
+      ]
+    }
+  ]
+}
+

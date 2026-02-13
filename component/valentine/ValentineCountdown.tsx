@@ -1,4 +1,4 @@
-import { motion, usePresenceData } from "motion/react";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const ValentineCountdown = () => {

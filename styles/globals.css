@@ -34,3 +34,17 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Fix for Thai text - prevent clipping of vowels and tone marks */
+h1, h2, h3, h4, h5, h6, p, span, div {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  white-space: normal !important;
+}
+
+/* Ensure proper line height for Thai characters */
+[style*="font-family"] {
+  line-height: 1.4 !important;
+  padding-top: 0.15em;
+  padding-bottom: 0.15em;
+}

@@ -1,6 +1,4 @@
 .bg-main {
-  background: url("../assets/happy_valentine_day.svg");
-  background-position: center;
-  background-size: cover;
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fdf2f8 100%);
   background-attachment: fixed;
 }
