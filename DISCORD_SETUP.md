@@ -38,18 +38,29 @@
 ## การทำงาน
 
 - เมื่อมีคนเข้ามาดูเว็บ ระบบจะส่ง notification ไปที่ Discord
-- ถ้ามาจาก Facebook จะแสดงข้อความพิเศษ: **"🔔 มีคนเข้ามาดูเว็บจาก Facebook!"**
-- ถ้ามี `fbclid` (Facebook Click ID) ใน URL จะแสดงข้อมูลเพิ่มเติม:
-  - **fbclid value** (full string)
-  - **fbclid length** และ details
-  - **Likely source** (Facebook Ads หรือ Facebook Post)
+- ระบบรองรับ **Social Media Click IDs** จากหลายแพลตฟอร์ม:
+  - **Facebook** (`fbclid`) 📘
+  - **Google Ads** (`gclid`) 🔍
+  - **TikTok** (`ttclid`) 🎵
+  - **Twitter/X** (`twclid`) 🐦
+  - **LinkedIn** (`li_fat_id`) 💼
+  - **Snapchat** (`sc_cid`) 👻
+  - **Pinterest** (`pinid`) 📌
+  - **Instagram** (`igshid`) 📷
+  - **YouTube** (`ytclid`) 📺
+  - **Microsoft Ads** (`msclkid`) 🪟
+  - **UTM Parameters** (`utm_source`, `utm_medium`, `utm_campaign`) 📊
+- ถ้ามี Click ID ใน URL จะแสดงข้อมูลเพิ่มเติม:
+  - **Click ID value** (full string)
+  - **Click ID length** และ details
+  - **Platform name** และ emoji
   - **Full URL** พร้อม query parameters ทั้งหมด
 - Notification จะแสดงข้อมูล:
-  - Source (Facebook หรือ referer อื่นๆ)
+  - Source (Social Media platform หรือ referer อื่นๆ)
   - Page ที่เข้าดู
   - เวลาที่เข้ามาดู (เวลาไทย)
   - Device/User Agent
-  - **fbclid และข้อมูลทั้งหมด** (ถ้ามี)
+  - **Click IDs และข้อมูลทั้งหมด** (ถ้ามี)
 
 ## ตัวอย่าง Notification
 
@@ -105,28 +116,71 @@ fbclid: IwY2xjawP8hstleHRuA2FlbQIxMQBzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEeZW
 - Tracking จะไม่รบกวน user experience (fail silently)
 - ข้อมูลที่ส่งไป Discord ไม่รวมข้อมูลส่วนตัว (ไม่มี IP address)
 
-## เกี่ยวกับ fbclid (Facebook Click ID)
+## เกี่ยวกับ Social Media Click IDs
 
-`fbclid` เป็น parameter ที่ Facebook ใช้สำหรับ tracking clicks จาก:
-- **Facebook Ads** - เมื่อคลิกโฆษณาใน Facebook
-- **Facebook Posts** - เมื่อแชร์หรือคลิกลิงก์จากโพสต์
-- **Facebook Stories** - เมื่อคลิกลิงก์จาก Stories
+ระบบรองรับ Click IDs จาก Social Media หลายแพลตฟอร์ม:
 
-### ข้อมูลที่ดึงได้จาก fbclid:
+### Facebook (`fbclid`) 📘
+- ใช้สำหรับ tracking clicks จาก Facebook Ads, Posts, และ Stories
+- ช่วยระบุว่า click มาจากโฆษณาไหน
+- ใช้สำหรับวัดประสิทธิภาพของโฆษณา
 
-1. **fbclid Value** - ค่าเต็มของ fbclid (ใช้สำหรับ tracking)
-2. **Length** - ความยาวของ fbclid (ช่วยระบุว่าเป็น Ads หรือ Post)
-3. **Likely Source** - ประมาณการว่าเป็น Facebook Ads หรือ Post
-4. **Prefix/Suffix** - ส่วนต้นและท้ายของ fbclid (อาจมี metadata)
+### Google Ads (`gclid`) 🔍
+- Google Click Identifier สำหรับ Google Ads
+- ใช้สำหรับ tracking และ attribution ใน Google Analytics
+- ช่วยวัด ROI ของโฆษณา Google
+
+### TikTok (`ttclid`) 🎵
+- TikTok Click ID สำหรับ TikTok Ads
+- ใช้สำหรับ tracking performance ของโฆษณา TikTok
+
+### Twitter/X (`twclid`) 🐦
+- Twitter Click ID สำหรับ Twitter Ads
+- ใช้สำหรับ tracking engagement จาก Twitter
+
+### LinkedIn (`li_fat_id`) 💼
+- LinkedIn Click ID สำหรับ LinkedIn Ads
+- ใช้สำหรับ B2B marketing tracking
+
+### Snapchat (`sc_cid`) 👻
+- Snapchat Click ID สำหรับ Snapchat Ads
+- ใช้สำหรับ tracking mobile-first campaigns
+
+### Pinterest (`pinid`) 📌
+- Pinterest Click ID สำหรับ Pinterest Ads
+- ใช้สำหรับ visual marketing tracking
+
+### Instagram (`igshid`) 📷
+- Instagram Share ID
+- ใช้สำหรับ tracking shares และ engagement
+
+### YouTube (`ytclid`) 📺
+- YouTube Click ID สำหรับ YouTube Ads
+- ใช้สำหรับ video marketing tracking
+
+### Microsoft Ads (`msclkid`) 🪟
+- Microsoft Click ID สำหรับ Bing Ads
+- ใช้สำหรับ search engine marketing
+
+### UTM Parameters 📊
+- `utm_source` - แหล่งที่มาของ traffic
+- `utm_medium` - ประเภทของ marketing medium
+- `utm_campaign` - ชื่อ campaign
+
+### ข้อมูลที่ดึงได้จาก Click IDs:
+
+1. **Click ID Value** - ค่าเต็มของ click ID (ใช้สำหรับ tracking)
+2. **Length** - ความยาวของ click ID
+3. **Platform** - แพลตฟอร์มที่มาจาก
+4. **Prefix/Suffix** - ส่วนต้นและท้ายของ click ID (อาจมี metadata)
 5. **Full URL** - URL เต็มพร้อม query parameters ทั้งหมด
 
-### ทำไม fbclid ถึงสำคัญ:
+### ทำไม Click IDs ถึงสำคัญ:
 
-- **Facebook Ads Tracking** - ช่วยระบุว่า click มาจากโฆษณาไหน
 - **Attribution** - ใช้สำหรับวัดประสิทธิภาพของโฆษณา
 - **Analytics** - ช่วยวิเคราะห์ว่า traffic มาจากไหน
-
-เมื่อมี `fbclid` ใน URL แสดงว่าผู้ใช้เข้ามาจาก Facebook แน่นอน และมักจะมาจาก Facebook Ads
+- **ROI Measurement** - ช่วยวัดผลตอบแทนจากการลงโฆษณา
+- **Campaign Optimization** - ช่วยปรับปรุง campaign ให้มีประสิทธิภาพมากขึ้น
 
 ## Troubleshooting
 
