@@ -59,7 +59,8 @@ const LazyVideo = ({
     }
   }, [inView, shouldLoad]);
 
-  const handleVideoError = useCallback((e?: Event) => {
+  // Shared error handling logic
+  const tryAlternativeSource = useCallback(() => {
     if (loadTimeout) {
       clearTimeout(loadTimeout);
       setLoadTimeout(null);
@@ -123,13 +124,17 @@ const LazyVideo = ({
     }
   }, [currentSrc, encodedSrc, alternativeSrc, originalSrc, src, loadTimeout]);
 
+  const handleVideoError = useCallback((e: React.SyntheticEvent<HTMLVideoElement, Event>) => {
+    tryAlternativeSource();
+  }, [tryAlternativeSource]);
+
   // Set timeout for video loading
   useEffect(() => {
     if (shouldLoad && videoRef.current && isLoading && !hasError) {
       const timeout = setTimeout(() => {
         if (videoRef.current && isLoading && !hasError) {
           console.warn('Video loading timeout, trying alternative path...');
-          handleVideoError();
+          tryAlternativeSource();
         }
       }, 10000); // 10 seconds timeout
       
@@ -138,7 +143,7 @@ const LazyVideo = ({
         if (timeout) clearTimeout(timeout);
       };
     }
-  }, [shouldLoad, isLoading, hasError, handleVideoError]);
+  }, [shouldLoad, isLoading, hasError, tryAlternativeSource]);
 
   useEffect(() => {
     if (videoRef.current && shouldLoad) {
