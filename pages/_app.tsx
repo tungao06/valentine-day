@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useEffect, useRef } from 'react'
 import { useRouter } from 'next/router'
+import { initContentProtection } from '@utils/protection'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
@@ -150,6 +151,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     // Track only once when router is ready
     trackVisitor()
   }, [router.isReady, router.asPath])
+
+  // Initialize content protection
+  useEffect(() => {
+    const cleanup = initContentProtection()
+    return cleanup
+  }, [])
 
   return <Component {...pageProps} />
 }

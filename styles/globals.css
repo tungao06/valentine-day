@@ -48,3 +48,75 @@ h1, h2, h3, h4, h5, h6, p, span, div {
   padding-top: 0.15em;
   padding-bottom: 0.15em;
 }
+
+/* Content Protection Styles */
+/* Prevent text selection */
+* {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+
+/* Allow text selection for input fields */
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+}
+
+/* Prevent image dragging */
+img,
+video {
+  -webkit-user-drag: none !important;
+  -khtml-user-drag: none !important;
+  -moz-user-drag: none !important;
+  -o-user-drag: none !important;
+  user-drag: none !important;
+}
+
+/* Allow pointer events for images (needed for interactions) */
+img {
+  pointer-events: auto !important;
+}
+
+/* Prevent context menu on images */
+img::selection,
+video::selection {
+  background: transparent !important;
+}
+
+/* Watermark overlay for images */
+.watermark-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 100px,
+    rgba(255, 255, 255, 0.03) 100px,
+    rgba(255, 255, 255, 0.03) 200px
+  );
+  z-index: 1;
+}
+
+/* Hide content when screen is being captured (optional) */
+@media print {
+  * {
+    display: none !important;
+  }
+}
+
+/* Additional protection - prevent image context menu */
+img {
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+}
