@@ -113,6 +113,75 @@ function MyApp({ Component, pageProps }: AppProps) {
           // Hardware concurrency
           stats.hardwareConcurrency = navigator.hardwareConcurrency || 'unknown'
           
+          // Device type detection
+          const ua = navigator.userAgent.toLowerCase()
+          const isMobile = /mobile|android|iphone|ipod|blackberry|iemobile|opera mini/i.test(ua)
+          const isTablet = /tablet|ipad|playbook|silk/i.test(ua)
+          stats.deviceType = isMobile ? 'Mobile' : isTablet ? 'Tablet' : 'Desktop'
+          
+          // Orientation
+          stats.orientation = window.innerWidth > window.innerHeight ? 'Landscape' : 'Portrait'
+          
+          // Touch support
+          stats.touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+          stats.maxTouchPoints = navigator.maxTouchPoints || 0
+          
+          // Browser detection
+          const browserInfo = (() => {
+            const uaLower = userAgent.toLowerCase()
+            let browser = 'Unknown'
+            let version = 'Unknown'
+            
+            if (uaLower.includes('chrome') && !uaLower.includes('edg')) {
+              browser = 'Chrome'
+              const match = userAgent.match(/Chrome\/([\d.]+)/)
+              if (match) version = match[1]
+            } else if (uaLower.includes('firefox')) {
+              browser = 'Firefox'
+              const match = userAgent.match(/Firefox\/([\d.]+)/)
+              if (match) version = match[1]
+            } else if (uaLower.includes('safari') && !uaLower.includes('chrome')) {
+              browser = 'Safari'
+              const match = userAgent.match(/Version\/([\d.]+)/)
+              if (match) version = match[1]
+            } else if (uaLower.includes('edg')) {
+              browser = 'Edge'
+              const match = userAgent.match(/Edg\/([\d.]+)/)
+              if (match) version = match[1]
+            } else if (uaLower.includes('opera') || uaLower.includes('opr')) {
+              browser = 'Opera'
+              const match = userAgent.match(/(?:Opera|OPR)\/([\d.]+)/)
+              if (match) version = match[1]
+            }
+            
+            return { name: browser, version }
+          })()
+          stats.browserInfo = browserInfo
+          
+          // Performance metrics
+          if (typeof performance !== 'undefined' && performance.timing) {
+            const perf = performance.timing
+            stats.performance = {
+              pageLoadTime: perf.loadEventEnd - perf.navigationStart,
+              domContentLoaded: perf.domContentLoadedEventEnd - perf.navigationStart,
+              firstByte: perf.responseStart - perf.navigationStart,
+            }
+          }
+          
+          // Session ID (generate if not exists)
+          let sessionId = sessionStorage.getItem('session_id')
+          if (!sessionId) {
+            sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+            sessionStorage.setItem('session_id', sessionId)
+          }
+          stats.sessionId = sessionId
+          
+          // Visit count (increment if exists)
+          let visitCount = parseInt(sessionStorage.getItem('visit_count') || '0', 10)
+          visitCount++
+          sessionStorage.setItem('visit_count', visitCount.toString())
+          stats.visitCount = visitCount
+          
           // Timestamp
           stats.timestamp = {
             clientTime: new Date().toISOString(),

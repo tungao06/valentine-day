@@ -18,6 +18,12 @@ export default async function handler(
   try {
     const { referer, userAgent, path, fbclid, fullUrl, queryParams, stats } = req.body
 
+    // Get IP address from request (server-side)
+    const ipAddress = req.headers['x-forwarded-for']?.toString().split(',')[0] || 
+                     req.headers['x-real-ip']?.toString() || 
+                     req.socket.remoteAddress || 
+                     'Unknown'
+
     // Get Discord webhook URL from environment variable
     const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL
 
@@ -291,6 +297,89 @@ export default async function handler(
             inline: true
           })
         }
+      }
+      
+      // Device Type & Orientation
+      if (stats.deviceType || stats.orientation || stats.touchSupport !== undefined) {
+        const deviceInfo = []
+        if (stats.deviceType) {
+          deviceInfo.push(`**Type:** ${stats.deviceType}`)
+        }
+        if (stats.orientation) {
+          deviceInfo.push(`**Orientation:** ${stats.orientation}`)
+        }
+        if (stats.touchSupport !== undefined) {
+          deviceInfo.push(`**Touch:** ${stats.touchSupport ? '✅' : '❌'}`)
+        }
+        if (stats.maxTouchPoints) {
+          deviceInfo.push(`**Touch Points:** ${stats.maxTouchPoints}`)
+        }
+        if (deviceInfo.length > 0) {
+          statsFields.push({
+            name: '📱 Device',
+            value: deviceInfo.join(' | '),
+            inline: true
+          })
+        }
+      }
+      
+      // Browser Name & Version
+      if (stats.browserInfo) {
+        statsFields.push({
+          name: '🌐 Browser',
+          value: `**${stats.browserInfo.name}** ${stats.browserInfo.version !== 'Unknown' ? `v${stats.browserInfo.version}` : ''}`,
+          inline: true
+        })
+      }
+      
+      // Performance Metrics
+      if (stats.performance) {
+        const perfInfo = []
+        if (stats.performance.pageLoadTime) {
+          perfInfo.push(`**Load Time:** ${stats.performance.pageLoadTime}ms`)
+        }
+        if (stats.performance.domContentLoaded) {
+          perfInfo.push(`**DOM Ready:** ${stats.performance.domContentLoaded}ms`)
+        }
+        if (stats.performance.firstByte) {
+          perfInfo.push(`**First Byte:** ${stats.performance.firstByte}ms`)
+        }
+        if (perfInfo.length > 0) {
+          statsFields.push({
+            name: '⚡ Performance',
+            value: perfInfo.join(' | '),
+            inline: true
+          })
+        }
+      }
+      
+      // Session Info
+      if (stats.sessionId || stats.visitCount) {
+        const sessionInfo = []
+        if (stats.sessionId) {
+          sessionInfo.push(`**Session ID:** \`${stats.sessionId.substring(0, 20)}...\``)
+        }
+        if (stats.visitCount) {
+          sessionInfo.push(`**Visit #${stats.visitCount}**`)
+        }
+        if (sessionInfo.length > 0) {
+          statsFields.push({
+            name: '🆔 Session',
+            value: sessionInfo.join(' | '),
+            inline: true
+          })
+        }
+      }
+      
+      // IP Address (server-side)
+      if (ipAddress && ipAddress !== 'Unknown') {
+        // Anonymize IP (remove last octet for privacy)
+        const anonymizedIP = ipAddress.split('.').slice(0, 3).join('.') + '.xxx'
+        statsFields.push({
+          name: '🌍 IP Address',
+          value: `\`${anonymizedIP}\``,
+          inline: true
+        })
       }
       
       // Add all stats fields
