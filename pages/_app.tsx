@@ -13,6 +13,20 @@ function MyApp({ Component, pageProps }: AppProps) {
         const referer = document.referrer || ''
         const userAgent = navigator.userAgent
         const path = router.asPath
+        
+        // Get all URL query parameters
+        const queryParams = router.query
+        const fbclid = queryParams.fbclid as string || ''
+        const fullUrl = typeof window !== 'undefined' ? window.location.href : ''
+        
+        // Extract all query parameters
+        const allQueryParams: Record<string, string> = {}
+        if (typeof window !== 'undefined') {
+          const urlParams = new URLSearchParams(window.location.search)
+          urlParams.forEach((value, key) => {
+            allQueryParams[key] = value
+          })
+        }
 
         await fetch('/api/track-visitor', {
           method: 'POST',
@@ -23,6 +37,9 @@ function MyApp({ Component, pageProps }: AppProps) {
             referer,
             userAgent,
             path,
+            fbclid,
+            fullUrl,
+            queryParams: allQueryParams,
           }),
         })
       } catch (error) {
@@ -31,8 +48,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       }
     }
 
-    // Track on initial page load
-    trackVisitor()
+    // Track on initial page load (wait for router to be ready)
+    if (router.isReady) {
+      trackVisitor()
+    }
 
     // Track on route change
     const handleRouteChange = () => {
