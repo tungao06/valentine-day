@@ -18,7 +18,7 @@
  */
 export function getBlobUrl(path: string): string {
   // Remove leading slash if present for blob storage path
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  let cleanPath = path.startsWith('/') ? path.slice(1) : path;
   
   // Check if we have a BLOB_STORE_URL environment variable
   // Use process.env for server-side, window for client-side
@@ -30,7 +30,30 @@ export function getBlobUrl(path: string): string {
     // Use Vercel Blob URL
     // Ensure the blob store URL ends with a slash
     const baseUrl = blobStoreUrl.endsWith('/') ? blobStoreUrl : `${blobStoreUrl}/`;
-    return `${baseUrl}${cleanPath}`;
+    
+    // Encode the filename part only (not the folder path)
+    // This handles special characters in filenames while preserving folder structure
+    const pathParts = cleanPath.split('/');
+    const filename = pathParts.pop() || '';
+    const encodedFilename = encodeURIComponent(filename);
+    const encodedPath = pathParts.length > 0 
+      ? `${pathParts.join('/')}/${encodedFilename}`
+      : encodedFilename;
+    
+    const fullUrl = `${baseUrl}${encodedPath}`;
+    
+    // Log in development to help debug
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[Blob URL]', {
+        original: path,
+        cleanPath,
+        encodedPath,
+        fullUrl,
+        blobStoreUrl
+      });
+    }
+    
+    return fullUrl;
   }
   
   // Fallback to public folder (for local development)

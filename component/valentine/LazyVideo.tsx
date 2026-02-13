@@ -59,13 +59,43 @@ const LazyVideo = ({
     }
   }, [inView, shouldLoad]);
 
-  const handleVideoError = useCallback(() => {
+  const handleVideoError = useCallback((e?: Event) => {
     if (loadTimeout) {
       clearTimeout(loadTimeout);
       setLoadTimeout(null);
     }
     
     setIsLoading(false);
+    
+    // Log detailed error information for debugging
+    const videoElement = videoRef.current;
+    if (videoElement) {
+      const error = videoElement.error;
+      if (error) {
+        let errorMessage = 'Unknown error';
+        switch (error.code) {
+          case error.MEDIA_ERR_ABORTED:
+            errorMessage = 'Video loading aborted';
+            break;
+          case error.MEDIA_ERR_NETWORK:
+            errorMessage = 'Network error - file may not exist (404)';
+            break;
+          case error.MEDIA_ERR_DECODE:
+            errorMessage = 'Video decode error';
+            break;
+          case error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+            errorMessage = 'Video format not supported';
+            break;
+        }
+        console.error('Video error:', {
+          code: error.code,
+          message: errorMessage,
+          src: currentSrc,
+          originalSrc: src,
+          videoElementSrc: videoElement.src
+        });
+      }
+    }
     
     // Try alternative encoding if current one failed
     if (currentSrc === encodedSrc) {
@@ -86,7 +116,10 @@ const LazyVideo = ({
       }
     } else {
       setHasError(true);
-      console.error('Video failed to load:', src);
+      console.error('Video failed to load after trying all encoding methods:', {
+        originalSrc: src,
+        triedUrls: [encodedSrc, alternativeSrc, originalSrc]
+      });
     }
   }, [currentSrc, encodedSrc, alternativeSrc, originalSrc, src, loadTimeout]);
 
@@ -212,7 +245,7 @@ const LazyVideo = ({
           {/* Error message */}
           {hasError && (
             <div className="absolute inset-0 flex items-center justify-center bg-rose-100/50 rounded-2xl sm:rounded-3xl">
-              <div className="text-center p-4">
+              <div className="text-center p-4 max-w-md">
                 <p className="text-rose-400 text-sm mb-2">
                   ไม่สามารถโหลดวิดีโอได้
                   {src.toLowerCase().endsWith('.mov') && (
@@ -220,7 +253,17 @@ const LazyVideo = ({
                       (ไฟล์ .mov อาจไม่รองรับในบาง browser)
                     </span>
                   )}
+                  {currentSrc.includes('vercel-storage.com') && (
+                    <span className="block mt-2 text-xs text-rose-500">
+                      ⚠️ ตรวจสอบว่าไฟล์อยู่ใน Blob Storage ที่ path ที่ถูกต้อง
+                      <br />
+                      ดูคู่มือใน BLOB_STORAGE_SETUP.md
+                    </span>
+                  )}
                 </p>
+                <div className="text-xs text-rose-300 mb-3 break-all">
+                  URL: {currentSrc}
+                </div>
                 <button
                   onClick={() => {
                     setHasError(false);
