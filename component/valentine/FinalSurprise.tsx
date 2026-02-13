@@ -13,15 +13,15 @@ const FinalSurprise = () => {
 
   // รูปภาพที่สวยที่สุดจากทุก story (เลือกมา 6-9 รูป)
   const favoriteImages = [
-    "/images/story1/story1_image1.jpg",
-    "/images/story1/story1_image2.jpg",
-    "/images/story2/story2_image1.jpg",
-    "/images/story2/story2_image2.jpg",
-    "/images/story3/story3_image1.jpg",
-    "/images/story3/story3_image2.jpg",
-    "/images/story4/story4_image1.jpg",
-    "/images/story4/story4_image2.jpg",
-    "/images/story5/story5_image1.jpg",
+    "/story1/story1_image1.jpg",
+    "/story1/story1_image2.jpg",
+    "/story2/story2_image1.jpg",
+    "/story2/story2_image2.jpg",
+    "/story3/story3_image1.jpg",
+    "/story3/story3_image2.jpg",
+    "/story4/story4_image1.jpg",
+    "/story4/story4_image2.jpg",
+    "/story5/story5_image1.jpg",
   ];
 
   return (
